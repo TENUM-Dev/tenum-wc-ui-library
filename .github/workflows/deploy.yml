@@ -27,11 +27,18 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
-      - name: Configure git for private repos
+      - name: Configure git for HTTPS and authentication
         run: |
           git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "git@github.com:"
+          git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "ssh://git@github.com/"
+
+      - name: Clear npm cache
+        run: npm cache clean --force
 
       - name: Install dependencies
+        env:
+          GIT_TERMINAL_PROMPT: 0
         run: npm install
 
       - name: Build project
