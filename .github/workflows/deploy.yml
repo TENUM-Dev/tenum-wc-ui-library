@@ -27,21 +27,7 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
-      - name: Configure git for HTTPS and authentication
-        run: |
-          git config --global url."https://x-access-token:${{ secrets.GH_DEPLOY_TOKEN }}@github.com/".insteadOf "https://github.com/"
-          git config --global url."https://x-access-token:${{ secrets.GH_DEPLOY_TOKEN }}@github.com/".insteadOf "git@github.com:"
-
-      - name: Verify git access to private repo
-        run: |
-          git ls-remote https://${{ secrets.GH_DEPLOY_TOKEN }}@github.com/TENUM-Dev/tenum-wc-registration.git HEAD
-
-      - name: Clear npm cache
-        run: npm cache clean --force
-
       - name: Install dependencies
-        env:
-          GIT_TERMINAL_PROMPT: 0
         run: npm install
 
       - name: Build project
