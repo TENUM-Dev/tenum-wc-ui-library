@@ -5,22 +5,23 @@ import { JSONSchema7 } from "json-schema";
 import customValidator from "./utils/CustomValidator";
 import { fixEmptyObjectsAsArraysInJsonSchema, fixEmptyObjectsAsArraysInUiSchema } from "./utils/JsonSchemaFixes";
 
-export type JsonFormProps = {
-  schema?: JSONSchema7;
-  uischema?: any;
-  formData?: any;
-  onFormChange?: (data: any) => void;
-  onFormSubmit?: (data: any) => void;
-  onFormError?: (errors: any) => void;
+export type JsonFormProps =
+{
+  schema: JSONSchema7;
+  uischema: any;
+  formData: any;
+  onChange?: (data: any) => void;
+  onSubmit?: (data: any) => void;
+  onError?: (errors: any) => void;
 };
 
 const JsonForm: React.FC<JsonFormProps> = ({
   schema,
   uischema = {},
   formData = {},
-  onFormChange,
-  onFormSubmit,
-  onFormError
+  onChange,
+  onSubmit,
+  onError
  }: JsonFormProps): JSX.Element => {
   const [formStateData, setFormStateData] = useState(formData);
   const newSchema = schema ? fixEmptyObjectsAsArraysInJsonSchema(schema) : null;
@@ -51,28 +52,28 @@ const JsonForm: React.FC<JsonFormProps> = ({
 
     setFormStateData(event.formData);
 
-    typeof onFormChange === 'function'
-      ? onFormChange(event.formData)
-      : console.warn('onFormChange is not a function it is ', onFormChange)
-  }, [onFormChange]);
+    typeof onChange === 'function'
+      ? onChange(event.formData)
+      : console.warn('onChange is not a function it is ', onChange)
+  }, [onChange]);
 
   const handleSubmit = useCallback((event: any) => {
     console.log('Form submitted:', event.formData);
 
-    typeof onFormSubmit === 'function'
-      ? onFormSubmit(event.formData)
-      : console.warn('onFormSubmit is not a function it is ', onFormSubmit)
+    typeof onSubmit === 'function'
+      ? onSubmit(event.formData)
+      : console.warn('onSubmit is not a function it is ', onSubmit)
 
     setFormStateData({});
-  }, [onFormSubmit]);
+  }, [onSubmit]);
 
   const handleError = useCallback((errors: any) => {
     console.log("Form errors:", errors);
 
-    typeof onFormError === 'function'
-      ? onFormError(errors)
-      : console.warn('onFormError is not a function it is ', onFormError)
-  }, [onFormError]);
+    typeof onError === 'function'
+      ? onError(errors)
+      : console.warn('onError is not a function it is ', onError)
+  }, [onError]);
 
   if (!formSchema || !schema) {
     console.error("JsonForm: No schema found");
