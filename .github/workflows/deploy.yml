@@ -29,9 +29,9 @@ jobs:
 
       - name: Configure git for HTTPS and authentication
         run: |
-          git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
-          git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "git@github.com:"
-          git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "ssh://git@github.com/"
+          git config --global url."https://${{ secrets.GH_DEPLOY_TOKEN }}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://${{ secrets.GH_DEPLOY_TOKEN }}@github.com/".insteadOf "git@github.com:"
+          git config --global url."https://${{ secrets.GH_DEPLOY_TOKEN }}@github.com/".insteadOf "ssh://git@github.com/"
 
       - name: Clear npm cache
         run: npm cache clean --force
