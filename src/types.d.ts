@@ -17,6 +17,7 @@ export interface ComponentRegistry {
   getAllLibraries(): string[];
 }
 
+
 declare global {
   interface Window {
     __COMPONENT_REGISTRY__?: ComponentRegistry;
