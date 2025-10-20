@@ -10,13 +10,13 @@ export default {
   entry: "./src/index.ts",
   output: {
     filename: "[name].js",
-    path: path.resolve(__dirname, "../dist"),
+    path: path.resolve(__dirname, "dist"),
     publicPath: "auto",
     clean: true
   },
   devServer: {
     port: 3001,
-    static: path.join(__dirname, "../dist"),
+    static: path.join(__dirname, "dist"),
     headers: { "Access-Control-Allow-Origin": "*" }
   },
   resolve: {
