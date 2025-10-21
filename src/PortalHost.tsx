@@ -248,7 +248,12 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       break;
     case "provider":
       const providerTheme = entry.props?.theme;
-      element = <Provider theme={providerTheme}>{children}</Provider>;
+      console.log("[PortalHost] Rendering provider with:", {
+        theme: providerTheme,
+        allProps: entry.props,
+        childrenCount: children.length
+      });
+      element = <Provider theme={providerTheme} {...entry.props}>{children}</Provider>;
       break;
   }
 
