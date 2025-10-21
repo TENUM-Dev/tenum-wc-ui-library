@@ -1,8 +1,9 @@
 import React from "react";
 import { ChakraProvider, Table, Thead, Tbody, Tr, Th, Td, TableContainer } from "@chakra-ui/react";
 import { createPortal } from "react-dom";
+import { Provider } from "./Provider";
 
-export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tr" | "th" | "td";
+export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tr" | "th" | "td" | "provider";
 
 export type NodeEntry = {
   id: string;
@@ -71,6 +72,87 @@ export class Registry {
 
 export const registry = new Registry();
 
+export class ChakraProviderElement extends HTMLElement {
+  protected _id: string;
+  protected observer?: MutationObserver;
+
+  constructor() {
+    super();
+    this._id = `provider-${Math.random().toString(36).substring(7)}`;
+  }
+
+  connectedCallback() {
+    registry.upsert({
+      id: this._id,
+      parentId: this.getParentChakraElement()?._id,
+      container: this,
+      type: "provider",
+      props: this.collectProps(),
+      childrenOrder: [],
+      textContent: this.getTextContent()
+    });
+
+    const parentId = this.getParentChakraElement()?._id;
+    if (parentId) {
+      registry.addChild(parentId, this._id);
+    }
+
+    this.observer = new MutationObserver(() => {
+      registry.updateTextContent(this._id, this.getTextContent());
+    });
+
+    this.observer.observe(this, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+  }
+
+  disconnectedCallback() {
+    this.observer?.disconnect();
+    registry.remove(this._id);
+  }
+
+  protected getParentChakraElement(): ChakraProviderElement | undefined {
+    let parent = this.parentElement;
+    while (parent) {
+      if (parent instanceof ChakraProviderElement) {
+        return parent;
+      }
+      parent = parent.parentElement;
+    }
+    return undefined;
+  }
+
+  protected collectProps(): Record<string, any> {
+    const props: Record<string, any> = {};
+
+    if (this.hasAttribute("data-theme")) {
+      try {
+        const themeStr = this.getAttribute("data-theme");
+        if (themeStr) {
+          props.theme = JSON.parse(decodeURIComponent(themeStr));
+        }
+      } catch (e) {
+        console.warn("[ChakraProviderElement] Failed to parse theme:", e);
+      }
+    }
+
+    // Copy other attributes
+    for (const attr of this.attributes) {
+      if (!attr.name.startsWith("data-")) {
+        props[attr.name] = attr.value;
+      }
+    }
+
+    return props;
+  }
+
+  protected getTextContent(): string {
+    return this.textContent?.trim() || "";
+  }
+}
+
 function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boolean = false): React.ReactNode {
   const entry = entries.get(id);
   // console.warn('entry', entry);
@@ -116,6 +198,10 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       break;
     case "td":
       element = <Td {...entry.props}>{content}</Td>;
+      break;
+    case "provider":
+      const providerTheme = entry.props?.theme;
+      element = <Provider theme={providerTheme}>{children}</Provider>;
       break;
   }
 

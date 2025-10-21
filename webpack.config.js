@@ -46,6 +46,7 @@ export default {
         "./Hello": "./src/Hello",
         "./JsonForm": "./src/JsonForm",
         "./Del": "./src/Del",
+        "./Provider": "./src/Provider",
         "./index": "./src/index"
       },
       shared: {

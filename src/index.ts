@@ -2,6 +2,7 @@ import { registerLibrary, registerCustomElements } from 'tenum-wc-registration';
 import Hello from "./Hello";
 import JsonForm from "./JsonForm";
 import Del from "./Del";
+import Provider from "./Provider";
 
 import {
   ChakraTableContainerElement,
@@ -12,6 +13,7 @@ import {
   ChakraThElement,
   ChakraTdElement
 } from "./ChakraWebComponents";
+import { ChakraProviderElement } from "./PortalHost";
 import "./initChakraHost";
 
 registerLibrary({
@@ -47,6 +49,16 @@ registerLibrary({
       tag: 'x-del',
       version: '1.0.0',
       props: { text: 'string' }
+    },
+    {
+      name: 'Provider',
+      component: Provider,
+      tag: 'x-provider',
+      version: '1.0.0',
+      props: {
+        theme: 'json'
+      },
+      events: {}
     }
   ]
 });
@@ -114,6 +126,15 @@ registerCustomElements({
       version: '1.0.0',
       props: {
         text: 'string'
+      },
+      eventMap: {}
+    },
+    Provider: {
+      elementClass: ChakraProviderElement,
+      tag: 'chakra-provider',
+      version: '1.0.0',
+      props: {
+        theme: 'json'
       },
       eventMap: {}
     }
