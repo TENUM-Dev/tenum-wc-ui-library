@@ -15,6 +15,10 @@ export type ProviderProps = PropsWithChildren<{
    * @example { colors: { brand: { 500: '#0066cc' } } }
    */
   theme?: Record<string, any>;
+  /**
+   * Any Chakra Box styling props (borderWidth, borderColor, padding, etc.)
+   */
+  [key: string]: any;
 }>;
 
 /**
@@ -26,7 +30,7 @@ export type ProviderProps = PropsWithChildren<{
  *
  * @example
  * ```tsx
- * <Provider theme={{ colors: { brand: { 500: '#0066cc' } } }}>
+ * <Provider theme={{ colors: { brand: { 500: '#0066cc' } } }} borderWidth="2px" borderColor="red">
  *   <Button>Custom themed button</Button>
  * </Provider>
  * ```
@@ -51,8 +55,8 @@ export const Provider: FC<ProviderProps> = ({
   }, [theme, id]);
 
   return (
-    <Box id={id}>
-      <ChakraProvider theme={subTheme} cssVarsRoot={"#" + id} {...props}>
+    <Box id={id} {...props}>
+      <ChakraProvider theme={subTheme} cssVarsRoot={"#" + id}>
         {children}
       </ChakraProvider>
     </Box>
