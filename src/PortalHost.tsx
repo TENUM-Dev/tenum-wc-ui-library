@@ -82,6 +82,10 @@ export class ChakraProviderElement extends HTMLElement {
   }
 
   connectedCallback() {
+    // Apply Box styles directly to the web component element
+    this.applyStyles();
+
+    // Register this provider in the portal registry
     registry.upsert({
       id: this._id,
       parentId: this.getParentChakraElement()?._id,
@@ -96,12 +100,6 @@ export class ChakraProviderElement extends HTMLElement {
     if (parentId) {
       registry.addChild(parentId, this._id);
     }
-
-    console.log("[ChakraProviderElement] Connected:", {
-      id: this._id,
-      attributes: Array.from(this.attributes).map(a => ({ name: a.name, value: a.value })),
-      props: this.collectProps()
-    });
 
     // Observe mutations to keep props/text in sync
     this.observer = new MutationObserver(() => {
@@ -196,6 +194,33 @@ export class ChakraProviderElement extends HTMLElement {
   protected getTextContent(): string {
     return this.textContent?.trim() || "";
   }
+
+  /**
+   * Apply Chakra Box styling directly to the web component element
+   */
+  private applyStyles(): void {
+    const props = this.collectProps();
+
+    const styleMap: Record<string, string> = {
+      borderColor: props.borderColor || "",
+      borderWidth: props.borderWidth || "",
+      borderRadius: props.borderRadius || "",
+      padding: props.padding || "",
+      margin: props.margin || "",
+      backgroundColor: props.backgroundColor || "",
+    };
+
+    // Apply styles to the element
+    if (styleMap.borderColor) this.style.borderColor = styleMap.borderColor;
+    if (styleMap.borderWidth) this.style.borderWidth = styleMap.borderWidth;
+    if (styleMap.borderRadius) this.style.borderRadius = styleMap.borderRadius;
+    if (styleMap.padding) this.style.padding = styleMap.padding;
+    if (styleMap.margin) this.style.margin = styleMap.margin;
+    if (styleMap.backgroundColor) this.style.backgroundColor = styleMap.backgroundColor;
+
+    // Ensure the element displays as a block to contain children
+    this.style.display = "block";
+  }
 }
 
 function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boolean = false): React.ReactNode {
@@ -205,8 +230,6 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
     console.warn('[PortalHost] Entry not found for id:', id);
     return null;
   }
-
-  console.log("[PortalHost] Building node:", { id, type: entry.type, props: entry.props, isRoot });
 
   const children = entry.childrenOrder.map(childId => buildReactNode(childId, entries, false));
 
@@ -248,11 +271,6 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       break;
     case "provider":
       const providerTheme = entry.props?.theme;
-      console.log("[PortalHost] Rendering provider with:", {
-        theme: providerTheme,
-        allProps: entry.props,
-        childrenCount: children.length
-      });
       element = <Provider theme={providerTheme} {...entry.props}>{children}</Provider>;
       break;
   }
