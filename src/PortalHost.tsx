@@ -145,14 +145,52 @@ export class ChakraProviderElement extends HTMLElement {
       }
     }
 
-    // Copy other attributes
+    // Copy other attributes, converting to camelCase
     for (const attr of this.attributes) {
-      if (!attr.name.startsWith("data-")) {
-        props[attr.name] = attr.value;
+      if (!attr.name.startsWith("data-") && attr.name !== "id" && attr.name !== "theme") {
+        // Convert attribute name from lowercase to camelCase
+        // e.g., "bordercolor" -> "borderColor", "borderwidth" -> "borderWidth"
+        const camelCaseName = attr.name.replace(/([a-z])([a-z]+)/g, (m, p1, p2) =>
+          p1 + p2.toLowerCase()
+        ).replace(/^([a-z])/, (m) => m.toLowerCase());
+
+        const chakraName = this.toCamelCase(attr.name);
+        props[chakraName] = attr.value;
       }
     }
 
     return props;
+  }
+
+  /**
+   * Convert lowercased attribute names to camelCase for Chakra UI
+   * e.g., "bordercolor" -> "borderColor", "backgroundcolor" -> "backgroundColor"
+   */
+  private toCamelCase(str: string): string {
+    const mapping: Record<string, string> = {
+      bordercolor: "borderColor",
+      borderwidth: "borderWidth",
+      borderradius: "borderRadius",
+      backgroundcolor: "backgroundColor",
+      textcolor: "textColor",
+      fontsize: "fontSize",
+      fontweight: "fontWeight",
+      padding: "padding",
+      margin: "margin",
+    };
+
+    if (mapping[str.toLowerCase()]) {
+      return mapping[str.toLowerCase()];
+    }
+
+    // Fallback: convert any lowercase string to camelCase
+    return str
+      .toLowerCase()
+      .split(/[-_]/)
+      .reduce((result, word, index) => {
+        if (index === 0) return word;
+        return result + word.charAt(0).toUpperCase() + word.slice(1);
+      }, "");
   }
 
   protected getTextContent(): string {
