@@ -52,7 +52,7 @@ export const Provider: FC<ProviderProps> = ({
     };
     const extendedTheme = extendTheme(currentTheme, theme ?? {}, cssConfig);
     setSubTheme(extendedTheme);
-  }, [theme, id]);
+  }, [theme, id, currentTheme]);
 
   return (
     <Box id={id} {...props}>
