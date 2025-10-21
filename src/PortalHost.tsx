@@ -271,7 +271,7 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       break;
     case "provider":
       const providerTheme = entry.props?.theme;
-      element = <Provider theme={providerTheme} {...entry.props}>{children}</Provider>;
+      element = <Provider theme={providerTheme}>{children}</Provider>;
       break;
   }
 
