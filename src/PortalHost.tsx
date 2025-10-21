@@ -97,6 +97,13 @@ export class ChakraProviderElement extends HTMLElement {
       registry.addChild(parentId, this._id);
     }
 
+    console.log("[ChakraProviderElement] Connected:", {
+      id: this._id,
+      attributes: Array.from(this.attributes).map(a => ({ name: a.name, value: a.value })),
+      props: this.collectProps()
+    });
+
+    // Observe mutations to keep props/text in sync
     this.observer = new MutationObserver(() => {
       registry.updateTextContent(this._id, this.getTextContent());
     });
@@ -160,6 +167,8 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
     console.warn('[PortalHost] Entry not found for id:', id);
     return null;
   }
+
+  console.log("[PortalHost] Building node:", { id, type: entry.type, props: entry.props, isRoot });
 
   const children = entry.childrenOrder.map(childId => buildReactNode(childId, entries, false));
 
