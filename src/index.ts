@@ -11,7 +11,8 @@ import {
   ChakraTbodyElement,
   ChakraTrElement,
   ChakraThElement,
-  ChakraTdElement
+  ChakraTdElement,
+  JsonFormElement
 } from "./ChakraWebComponents";
 import { ChakraProviderElement } from "./PortalHost";
 import "./initChakraHost";
@@ -26,22 +27,6 @@ registerLibrary({
       version: '1.0.0',
       props: { name: 'string' },
       events: { onHelloClick: {} }
-    },
-    {
-      name: 'JsonForm',
-      component: JsonForm,
-      tag: 'x-jsonform',
-      version: '1.0.0',
-      props: {
-        schema: 'json',
-        uischema: 'json',
-        formData: 'json'
-      },
-      events: {
-        onChange: {},
-        onSubmit: {},
-        onError: {}
-      }
     },
     {
       name: 'Del',
@@ -137,6 +122,21 @@ registerCustomElements({
         theme: 'json'
       },
       eventMap: {}
+    },
+    JsonForm: {
+      elementClass: JsonFormElement,
+      tag: 'chakra-jsonform',
+      version: '1.0.0',
+      props: {
+        schema: 'json',
+        uischema: 'json',
+        formData: 'json'
+      },
+      eventMap: {
+        onChange: 'formchange',
+        onSubmit: 'formsubmit',
+        onError: 'formerror'
+      }
     }
   }
 });

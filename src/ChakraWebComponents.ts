@@ -1,3 +1,4 @@
+import { type JSONSchema7 } from "json-schema";
 import { registry, ChakraElementType } from "./PortalHost";
 
 abstract class ChakraElementBase extends HTMLElement {
@@ -172,6 +173,163 @@ export class ChakraThElement extends ChakraElementBase {
 
 export class ChakraTdElement extends ChakraElementBase {
   protected elementType: ChakraElementType = "td";
+}
+
+export class JsonFormElement extends HTMLElement {
+  protected _id: string;
+  protected observer?: MutationObserver;
+  private _schema: JSONSchema7 | null = null;
+  private _uischema: any = null;
+  private _formData: any = null;
+
+  constructor() {
+    super();
+    this._id = `jsonform-${Math.random().toString(36).substring(7)}`;
+  }
+
+  get schema(): JSONSchema7 | null {
+    return this._schema;
+  }
+
+  set schema(value: JSONSchema7 | null) {
+    this._schema = value;
+    this.updateRegistry();
+  }
+
+  get uischema(): any {
+    return this._uischema;
+  }
+
+  set uischema(value: any) {
+    this._uischema = value;
+    this.updateRegistry();
+  }
+
+  get formData(): any {
+    return this._formData;
+  }
+
+  set formData(value: any) {
+    this._formData = value;
+    this.updateRegistry();
+  }
+
+  connectedCallback() {
+    this.style.display = "block";
+
+    this.parseAttributes();
+
+    const parent = this.getParentElement();
+    const parentId = parent?._id;
+
+    registry.upsert({
+      id: this._id,
+      parentId,
+      container: this,
+      type: "jsonform",
+      props: this.collectProps(),
+      childrenOrder: [],
+      textContent: ""
+    });
+
+    if (parentId) {
+      registry.addChild(parentId, this._id);
+    }
+
+    this.observer = new MutationObserver(() => {
+      this.parseAttributes();
+      this.updateRegistry();
+    });
+
+    this.observer.observe(this, {
+      attributes: true,
+      attributeFilter: ["schema", "uischema", "formdata"]
+    });
+  }
+
+  disconnectedCallback() {
+    this.observer?.disconnect();
+    registry.remove(this._id);
+  }
+
+  private parseAttributes(): void {
+    const schemaAttr = this.getAttribute("schema");
+    if (schemaAttr) {
+      try {
+        this._schema = JSON.parse(decodeURIComponent(schemaAttr));
+      } catch (e) {
+        console.warn("[JsonFormElement] Failed to parse schema:", e);
+      }
+    }
+
+    const uischemaAttr = this.getAttribute("uischema");
+    if (uischemaAttr) {
+      try {
+        this._uischema = JSON.parse(decodeURIComponent(uischemaAttr));
+      } catch (e) {
+        console.warn("[JsonFormElement] Failed to parse uischema:", e);
+      }
+    }
+
+    const formDataAttr = this.getAttribute("formdata");
+    if (formDataAttr) {
+      try {
+        this._formData = JSON.parse(decodeURIComponent(formDataAttr));
+      } catch (e) {
+        console.warn("[JsonFormElement] Failed to parse formData:", e);
+      }
+    }
+  }
+
+  private getParentElement(): any {
+    let parent = this.parentElement;
+    while (parent) {
+      if ((parent as any)._id) {
+        return parent;
+      }
+      parent = parent.parentElement;
+    }
+    return undefined;
+  }
+
+  private collectProps(): Record<string, any> {
+    const onChange = (data: any) => {
+      this.dispatchEvent(new CustomEvent('formchange', {
+        detail: data,
+        bubbles: true,
+        composed: true
+      }));
+    };
+
+    const onSubmit = (data: any) => {
+      this.dispatchEvent(new CustomEvent('formsubmit', {
+        detail: data,
+        bubbles: true,
+        composed: true
+      }));
+    };
+
+    const onError = (errors: any) => {
+      this.dispatchEvent(new CustomEvent('formerror', {
+        detail: errors,
+        bubbles: true,
+        composed: true
+      }));
+    };
+
+    return {
+      schema: this._schema,
+      uischema: this._uischema,
+      formData: this._formData,
+      onChange,
+      onSubmit,
+      onError
+    };
+  }
+
+  private updateRegistry(): void {
+    registry.updateProps(this._id, this.collectProps());
+  }
 }
 
 export function registerChakraWebComponents() {

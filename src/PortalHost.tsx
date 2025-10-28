@@ -2,8 +2,9 @@ import React from "react";
 import { ChakraProvider, Table, Thead, Tbody, Tr, Th, Td, TableContainer } from "@chakra-ui/react";
 import { createPortal } from "react-dom";
 import { Provider } from "./Provider";
+import JsonForm from "./JsonForm";
 
-export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tr" | "th" | "td" | "provider";
+export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tr" | "th" | "td" | "provider" | "jsonform";
 
 export type NodeEntry = {
   id: string;
@@ -272,6 +273,19 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
     case "provider":
       const providerTheme = entry.props?.theme;
       element = <Provider theme={providerTheme}>{children}</Provider>;
+      break;
+    case "jsonform":
+      const { schema, uischema, formData, onChange, onSubmit, onError } = entry.props || {};
+      element = (
+        <JsonForm
+          schema={schema}
+          uischema={uischema}
+          formData={formData}
+          onChange={onChange}
+          onSubmit={onSubmit}
+          onError={onError}
+        />
+      );
       break;
   }
 
