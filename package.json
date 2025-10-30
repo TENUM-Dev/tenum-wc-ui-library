@@ -1,8 +1,13 @@
 {
-  "name": "hello-lib",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@tenum/chakra-ui-library",
+  "version": "1.0.0",
+  "private": false,
   "type": "module",
+  "description": "Tenum Chakra UI Web Components UI Library - Module Federation compatible",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "scripts": {
     "start": "webpack serve --config webpack.config.js --mode development",
     "build": "webpack --config webpack.config.js --mode production",

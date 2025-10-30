@@ -1,6 +1,5 @@
 import { registerLibrary, registerCustomElements } from 'tenum-wc-registration';
 import Hello from "./Hello";
-import JsonForm from "./JsonForm";
 import Del from "./Del";
 
 import {
@@ -16,6 +15,10 @@ import {
 import { ChakraProviderElement } from "./PortalHost";
 import "./initChakraHost";
 
+const VERSION = process.env.LIBRARY_VERSION || '0.0.0-dev';
+
+console.log(`[HelloLib] Loaded version: ${VERSION}`);
+
 registerLibrary({
   name: 'HelloLib',
   components: [
@@ -23,7 +26,7 @@ registerLibrary({
       name: 'Hello',
       component: Hello,
       tag: 'x-hello',
-      version: '1.0.0',
+      version: VERSION,
       props: { name: 'string' },
       events: { onHelloClick: {} }
     },
@@ -31,7 +34,7 @@ registerLibrary({
       name: 'Del',
       component: Del,
       tag: 'x-del',
-      version: '1.0.0',
+      version: VERSION,
       props: { text: 'string' }
     }
   ]
@@ -43,7 +46,7 @@ registerCustomElements({
     TableContainer: {
       elementClass: ChakraTableContainerElement,
       tag: 'chakra-table-container',
-      version: '1.0.0',
+      version: VERSION,
       props: {
         display: 'string',
         maxWidth: 'string',
@@ -56,7 +59,7 @@ registerCustomElements({
     Table: {
       elementClass: ChakraTableElement,
       tag: 'chakra-table',
-      version: '1.0.0',
+      version: VERSION,
       props: {
         variant: 'string',
         size: 'string',
@@ -67,28 +70,28 @@ registerCustomElements({
     Thead: {
       elementClass: ChakraTheadElement,
       tag: 'chakra-thead',
-      version: '1.0.0',
+      version: VERSION,
       props: {},
       eventMap: {}
     },
     Tbody: {
       elementClass: ChakraTbodyElement,
       tag: 'chakra-tbody',
-      version: '1.0.0',
+      version: VERSION,
       props: {},
       eventMap: {}
     },
     Tr: {
       elementClass: ChakraTrElement,
       tag: 'chakra-tr',
-      version: '1.0.0',
+      version: VERSION,
       props: {},
       eventMap: {}
     },
     Th: {
       elementClass: ChakraThElement,
       tag: 'chakra-th',
-      version: '1.0.0',
+      version: VERSION,
       props: {
         text: 'string'
       },
@@ -97,7 +100,7 @@ registerCustomElements({
     Td: {
       elementClass: ChakraTdElement,
       tag: 'chakra-td',
-      version: '1.0.0',
+      version: VERSION,
       props: {
         text: 'string'
       },
@@ -106,7 +109,7 @@ registerCustomElements({
     Provider: {
       elementClass: ChakraProviderElement,
       tag: 'chakra-provider',
-      version: '1.0.0',
+      version: VERSION,
       props: {
         theme: 'json'
       },
@@ -115,7 +118,7 @@ registerCustomElements({
     JsonForm: {
       elementClass: JsonFormElement,
       tag: 'chakra-jsonform',
-      version: '1.0.0',
+      version: VERSION,
       props: {
         schema: 'json',
         uischema: 'json',
@@ -131,5 +134,5 @@ registerCustomElements({
 });
 
 export function register() {
-  console.log('[HelloLib] Components already registered via package');
+  console.log(`[HelloLib v${VERSION}] Components already registered via package`);
 }

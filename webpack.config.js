@@ -1,10 +1,15 @@
+import fs from "fs";
 import path from "path";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import { fileURLToPath } from "url";
 import webpack from "webpack";
+import { fileURLToPath } from "url";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const packageJson = JSON.parse(fs.readFileSync("./package.json", "utf8"));
+const LIBRARY_VERSION = packageJson.version;
+console.log(`Building @tenum/chakra-ui-library version: ${LIBRARY_VERSION}`);
 
 export default {
   entry: "./src/index.ts",
@@ -39,6 +44,9 @@ export default {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env.LIBRARY_VERSION": JSON.stringify(LIBRARY_VERSION)
+    }),
     new webpack.container.ModuleFederationPlugin({
       name: "helloLib",
       filename: "remoteEntry.js",
