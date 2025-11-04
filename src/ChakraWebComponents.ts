@@ -60,7 +60,7 @@ abstract class ChakraElementBase extends HTMLElement {
   protected setDisplayStyle(): void {
     switch (this.elementType) {
       case "table-container":
-        this.style.border = "1px solid red";
+        // this.style.border = "1px solid red";
         break;
       case "table":
         this.style.display = "table";
