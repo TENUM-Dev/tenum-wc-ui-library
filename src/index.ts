@@ -93,7 +93,8 @@ registerCustomElements({
       tag: 'chakra-th',
       version: VERSION,
       props: {
-        text: 'string'
+        text: 'string',
+        isNumeric: 'boolean'
       },
       eventMap: {}
     },
@@ -102,7 +103,8 @@ registerCustomElements({
       tag: 'chakra-td',
       version: VERSION,
       props: {
-        text: 'string'
+        text: 'string',
+        isNumeric: 'boolean'
       },
       eventMap: {}
     },

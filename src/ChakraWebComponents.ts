@@ -36,6 +36,10 @@ abstract class ChakraElementBase extends HTMLElement {
       if (attr.name === "text") {
         props[attr.name] = attr.value;
       }
+      // For th/td isNumeric - HTML lowercases attributes to "isnumeric"
+      if (attr.name === "isnumeric") {
+        props.isNumeric = attr.value === 'true' || attr.value === '';
+      }
       // For table-container elements
       if (this.elementType === "table-container") {
         if (attr.name === "display" || attr.name === "maxwidth" ||
