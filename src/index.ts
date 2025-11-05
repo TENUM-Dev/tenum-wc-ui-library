@@ -10,6 +10,8 @@ import {
   ChakraTrElement,
   ChakraThElement,
   ChakraTdElement,
+  ChakraTableCaptionElement,
+  ChakraTfootElement,
   JsonFormElement
 } from "./ChakraWebComponents";
 import { ChakraProviderElement } from "./PortalHost";
@@ -106,6 +108,22 @@ registerCustomElements({
         text: 'string',
         isNumeric: 'boolean'
       },
+      eventMap: {}
+    },
+    TableCaption: {
+      elementClass: ChakraTableCaptionElement,
+      tag: 'chakra-table-caption',
+      version: VERSION,
+      props: {
+        text: 'string'
+      },
+      eventMap: {}
+    },
+    Tfoot: {
+      elementClass: ChakraTfootElement,
+      tag: 'chakra-tfoot',
+      version: VERSION,
+      props: {},
       eventMap: {}
     },
     Provider: {

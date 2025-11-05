@@ -1,10 +1,10 @@
 import React from "react";
-import { ChakraProvider, Table, Thead, Tbody, Tr, Th, Td, TableContainer } from "@chakra-ui/react";
+import { ChakraProvider, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableContainer, TableCaption } from "@chakra-ui/react";
 import { createPortal } from "react-dom";
 import { Provider } from "./Provider";
 import JsonForm from "./JsonForm";
 
-export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tr" | "th" | "td" | "provider" | "jsonform";
+export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tfoot" | "tr" | "th" | "td" | "table-caption" | "provider" | "jsonform";
 
 export type NodeEntry = {
   id: string;
@@ -261,6 +261,9 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
     case "tbody":
       element = <Tbody {...entry.props}>{children}</Tbody>;
       break;
+    case "tfoot":
+      element = <Tfoot {...entry.props}>{children}</Tfoot>;
+      break;
     case "tr":
       element = <Tr {...entry.props}>{children}</Tr>;
       break;
@@ -269,6 +272,9 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       break;
     case "td":
       element = <Td {...entry.props}>{content}</Td>;
+      break;
+    case "table-caption":
+      element = <TableCaption {...entry.props}>{content}</TableCaption>;
       break;
     case "provider":
       const providerTheme = entry.props?.theme;
