@@ -58,12 +58,32 @@ export default {
         "./index": "./src/index"
       },
       shared: {
-        // Needed for local development
-        react: { singleton: true, requiredVersion: "^18.3.1" },
-        "react-dom": { singleton: true, requiredVersion: "^18.3.1" },
-        "@chakra-ui/react": { singleton: true, requiredVersion: "2.10.9" },
-        "@emotion/react": { singleton: true, requiredVersion: "11.14.0" },
-        "@emotion/styled": { singleton: true, requiredVersion: "11.14.1" }
+        // Use requiredVersion: false to allow host to control versions
+        react: {
+          singleton: true,
+          requiredVersion: false,
+          eager: true
+        },
+        "react-dom": {
+          singleton: true,
+          requiredVersion: false,
+          eager: true
+        },
+        "@chakra-ui/react": {
+          singleton: true,
+          requiredVersion: false,
+          eager: true
+        },
+        "@emotion/react": {
+          singleton: true,
+          requiredVersion: false,
+          eager: true
+        },
+        "@emotion/styled": {
+          singleton: true,
+          requiredVersion: false,
+          eager: true
+        }
       }
     }),
     new HtmlWebpackPlugin({
