@@ -69,6 +69,16 @@ export default {
           requiredVersion: false,
           eager: true
         },
+        "react/jsx-runtime": {
+          singleton: true,
+          requiredVersion: false,
+          eager: true
+        },
+        "react/jsx-dev-runtime": {
+          singleton: true,
+          requiredVersion: false,
+          eager: true
+        },
         "@chakra-ui/react": {
           singleton: true,
           requiredVersion: false,
