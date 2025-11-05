@@ -187,6 +187,10 @@ export class ChakraTfootElement extends ChakraElementBase {
   protected elementType: ChakraElementType = "tfoot";
 }
 
+export class ChakraBadgeElement extends ChakraElementBase {
+  protected elementType: ChakraElementType = "badge";
+}
+
 export class JsonFormElement extends HTMLElement {
   protected _id: string;
   protected observer?: MutationObserver;
@@ -382,6 +386,10 @@ export function registerChakraWebComponents() {
   if (!customElements.get("chakra-tfoot")) {
     customElements.define("chakra-tfoot", ChakraTfootElement);
     // console.log('[ChakraWC] Registered chakra-tfoot');
+  }
+  if (!customElements.get("chakra-badge")) {
+    customElements.define("chakra-badge", ChakraBadgeElement);
+    // console.log('[ChakraWC] Registered chakra-badge');
   }
 
   console.log('[ChakraWC] All Chakra web components registered');

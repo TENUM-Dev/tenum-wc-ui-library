@@ -12,6 +12,7 @@ import {
   ChakraTdElement,
   ChakraTableCaptionElement,
   ChakraTfootElement,
+  ChakraBadgeElement,
   JsonFormElement
 } from "./ChakraWebComponents";
 import { ChakraProviderElement } from "./PortalHost";
@@ -124,6 +125,18 @@ registerCustomElements({
       tag: 'chakra-tfoot',
       version: VERSION,
       props: {},
+      eventMap: {}
+    },
+    Badge: {
+      elementClass: ChakraBadgeElement,
+      tag: 'chakra-badge',
+      version: VERSION,
+      props: {
+        text: 'string',
+        colorScheme: 'string',
+        size: 'string',
+        variant: 'string'
+      },
       eventMap: {}
     },
     Provider: {
