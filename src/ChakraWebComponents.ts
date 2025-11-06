@@ -29,8 +29,11 @@ abstract class ChakraElementBase extends HTMLElement {
   protected collectProps(): Record<string, any> {
     const props: Record<string, any> = {};
     for (const attr of this.attributes) {
-      if (attr.name === "variant" || attr.name === "size" || attr.name === "colorscheme") {
+      if (attr.name === "variant" || attr.name === "size") {
         props[attr.name] = attr.value;
+      }
+      if (attr.name === "colorscheme") {
+        props.colorScheme = attr.value;
       }
       // For th/td elements
       if (attr.name === "text") {
