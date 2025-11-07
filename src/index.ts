@@ -13,6 +13,7 @@ import {
   ChakraTableCaptionElement,
   ChakraTfootElement,
   ChakraBadgeElement,
+  ChakraCodeElement,
   ChakraCardElement,
   ChakraCardHeaderElement,
   ChakraCardBodyElement,
@@ -137,6 +138,17 @@ registerCustomElements({
       version: VERSION,
       props: {
         text: 'string',
+        colorScheme: 'string',
+        size: 'string',
+        variant: 'string'
+      },
+      eventMap: {}
+    },
+    Code: {
+      elementClass: ChakraCodeElement,
+      tag: 'chakra-code',
+      version: VERSION,
+      props: {
         colorScheme: 'string',
         size: 'string',
         variant: 'string'
