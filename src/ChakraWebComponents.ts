@@ -194,6 +194,22 @@ export class ChakraBadgeElement extends ChakraElementBase {
   protected elementType: ChakraElementType = "badge";
 }
 
+export class ChakraCardElement extends ChakraElementBase {
+  protected elementType: ChakraElementType = "card";
+}
+
+export class ChakraCardHeaderElement extends ChakraElementBase {
+  protected elementType: ChakraElementType = "card-header";
+}
+
+export class ChakraCardBodyElement extends ChakraElementBase {
+  protected elementType: ChakraElementType = "card-body";
+}
+
+export class ChakraCardFooterElement extends ChakraElementBase {
+  protected elementType: ChakraElementType = "card-footer";
+}
+
 export class JsonFormElement extends HTMLElement {
   protected _id: string;
   protected observer?: MutationObserver;
@@ -393,6 +409,22 @@ export function registerChakraWebComponents() {
   if (!customElements.get("chakra-badge")) {
     customElements.define("chakra-badge", ChakraBadgeElement);
     // console.log('[ChakraWC] Registered chakra-badge');
+  }
+  if (!customElements.get("chakra-card")) {
+    customElements.define("chakra-card", ChakraCardElement);
+    // console.log('[ChakraWC] Registered chakra-card');
+  }
+  if (!customElements.get("chakra-card-header")) {
+    customElements.define("chakra-card-header", ChakraCardHeaderElement);
+    // console.log('[ChakraWC] Registered chakra-card-header');
+  }
+  if (!customElements.get("chakra-card-body")) {
+    customElements.define("chakra-card-body", ChakraCardBodyElement);
+    // console.log('[ChakraWC] Registered chakra-card-body');
+  }
+  if (!customElements.get("chakra-card-footer")) {
+    customElements.define("chakra-card-footer", ChakraCardFooterElement);
+    // console.log('[ChakraWC] Registered chakra-card-footer');
   }
 
   console.log('[ChakraWC] All Chakra web components registered');

@@ -13,6 +13,10 @@ import {
   ChakraTableCaptionElement,
   ChakraTfootElement,
   ChakraBadgeElement,
+  ChakraCardElement,
+  ChakraCardHeaderElement,
+  ChakraCardBodyElement,
+  ChakraCardFooterElement,
   JsonFormElement
 } from "./ChakraWebComponents";
 import { ChakraProviderElement } from "./PortalHost";
@@ -137,6 +141,43 @@ registerCustomElements({
         size: 'string',
         variant: 'string'
       },
+      eventMap: {}
+    },
+    Card: {
+      elementClass: ChakraCardElement,
+      tag: 'chakra-card',
+      version: VERSION,
+      props: {
+        colorScheme: 'string',
+        size: 'string',
+        variant: 'string',
+        align: 'string',
+        direction: 'string',
+        justify: 'string'
+      },
+      eventMap: {
+        onContextMenuEvent: 'contextmenu'
+      }
+    },
+    CardHeader: {
+      elementClass: ChakraCardHeaderElement,
+      tag: 'chakra-card-header',
+      version: VERSION,
+      props: {},
+      eventMap: {}
+    },
+    CardBody: {
+      elementClass: ChakraCardBodyElement,
+      tag: 'chakra-card-body',
+      version: VERSION,
+      props: {},
+      eventMap: {}
+    },
+    CardFooter: {
+      elementClass: ChakraCardFooterElement,
+      tag: 'chakra-card-footer',
+      version: VERSION,
+      props: {},
       eventMap: {}
     },
     Provider: {

@@ -1,10 +1,11 @@
 import React from "react";
-import { ChakraProvider, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableContainer, TableCaption, Badge } from "@chakra-ui/react";
+import { ChakraProvider, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableContainer, TableCaption, Badge, Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
 import { createPortal } from "react-dom";
 import { Provider } from "./Provider";
 import JsonForm from "./JsonForm";
+import CardContent from "./CardContent";
 
-export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tfoot" | "tr" | "th" | "td" | "table-caption" | "badge" | "provider" | "jsonform";
+export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tfoot" | "tr" | "th" | "td" | "table-caption" | "badge" | "provider" | "jsonform" | "card" | "card-header" | "card-body" | "card-footer";
 
 export type NodeEntry = {
   id: string;
@@ -278,6 +279,18 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       break;
     case "badge":
       element = <Badge {...entry.props}>{content}</Badge>;
+      break;
+    case "card":
+      element = <Card {...entry.props}>{children}</Card>;
+      break;
+    case "card-header":
+      element = <CardHeader {...entry.props}>{children}</CardHeader>;
+      break;
+    case "card-body":
+      element = <CardContent {...entry.props}>{children}</CardContent>;
+      break;
+    case "card-footer":
+      element = <CardFooter {...entry.props}>{children}</CardFooter>;
       break;
     case "provider":
       const providerTheme = entry.props?.theme;
