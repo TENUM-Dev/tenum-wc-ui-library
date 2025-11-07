@@ -35,8 +35,8 @@ abstract class ChakraElementBase extends HTMLElement {
       if (attr.name === "colorscheme") {
         props.colorScheme = attr.value;
       }
-      // For th/td elements
-      if (attr.name === "text") {
+      // For th/td elements and other text-based components
+      if (attr.name === "text" || attr.name === "children") {
         props[attr.name] = attr.value;
       }
       // For th/td isNumeric - HTML lowercases attributes to "isnumeric"
