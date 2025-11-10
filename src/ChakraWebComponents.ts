@@ -28,32 +28,24 @@ abstract class ChakraElementBase extends HTMLElement {
 
   protected collectProps(): Record<string, any> {
     const props: Record<string, any> = {};
+
     for (const attr of this.attributes) {
-      if (attr.name === "variant" || attr.name === "size") {
-        props[attr.name] = attr.value;
+      const attrName = attr.name;
+      const attrValue = attr.value;
+
+      if (attrName.startsWith('data-') || attrName === 'id' || attrName === 'class') {
+        continue;
       }
-      if (attr.name === "colorscheme") {
-        props.colorScheme = attr.value;
-      }
-      // For th/td elements and other text-based components
-      if (attr.name === "text" || attr.name === "children") {
-        props[attr.name] = attr.value;
-      }
-      // For th/td isNumeric - HTML lowercases attributes to "isnumeric"
-      if (attr.name === "isnumeric") {
-        props.isNumeric = attr.value === 'true' || attr.value === '';
-      }
-      // For table-container elements
-      if (this.elementType === "table-container") {
-        if (attr.name === "display" || attr.name === "maxwidth" ||
-            attr.name === "overflowx" || attr.name === "overflowy" ||
-            attr.name === "whitespace" || attr.name === "maxWidth" ||
-            attr.name === "overflowX" || attr.name === "overflowY" ||
-            attr.name === "whiteSpace") {
-          props[attr.name] = attr.value;
-        }
+
+      if (attrName === "colorscheme") {
+        props.colorScheme = attrValue;
+      } else if (attrName === "isnumeric") {
+        props.isNumeric = attrValue === 'true' || attrValue === '';
+      } else {
+        props[attrName] = attrValue;
       }
     }
+
     return props;
   }
 
