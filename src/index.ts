@@ -151,7 +151,7 @@ registerCustomElements({
       props: {
         text: 'string',
         colorScheme: 'string',
-        size: 'string',
+        fontSize: 'string',
         variant: 'string'
       },
       eventMap: {}

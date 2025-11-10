@@ -1,6 +1,6 @@
 import { Code as ChakraCode, CodeProps as ChakraCodeProps } from "@chakra-ui/react";
 import React, { FC, PropsWithChildren } from "react";
-import { sizeAll as size, variantCode as variant, colorScheme } from "./chakraTypes";
+import { variantCode as variant, colorScheme } from "./chakraTypes";
 
 interface CodeProps extends ChakraCodeProps {
   /**
@@ -10,10 +10,9 @@ interface CodeProps extends ChakraCodeProps {
   colorScheme?: colorScheme;
 
   /**
-   * The size of the Code. No predefined values available. The values are to be defined within the theme.
-   * @default md
+   * The font size of the Code (e.g., "sm", "md", "lg", "0.875em", "1.125em")
    */
-  size?: size;
+  fontSize?: string;
 
   /**
    * The variant of the Code
@@ -28,26 +27,26 @@ interface CodeProps extends ChakraCodeProps {
 export const Code: FC<PropsWithChildren<CodeProps>> = ({
   children,
   colorScheme,
-  size,
+  fontSize,
   variant,
   ...props
 }) => {
   if (!(window as any).__codeComponentLogged) {
     (window as any).__codeComponentLogged = true;
     console.log('[Code Component] Rendering with props:', {
-      size,
+      fontSize,
       colorScheme,
       variant,
       hasChildren: !!children,
-      allPropsKeys: Object.keys({ colorScheme, size, variant, ...props }),
-      allProps: { colorScheme, size, variant, ...props }
+      allPropsKeys: Object.keys({ colorScheme, fontSize, variant, ...props }),
+      allProps: { colorScheme, fontSize, variant, ...props }
     });
   }
 
   return (
     <ChakraCode
       colorScheme={colorScheme}
-      size={size}
+      fontSize={fontSize}
       variant={variant}
       {...props}
     >
