@@ -27,10 +27,18 @@ interface CodeProps extends ChakraCodeProps {
  */
 export const Code: FC<PropsWithChildren<CodeProps>> = ({
   children,
+  colorScheme,
+  size,
+  variant,
   ...props
 }) => {
   return (
-    <ChakraCode {...props}>
+    <ChakraCode
+      colorScheme={colorScheme}
+      size={size}
+      variant={variant}
+      {...props}
+    >
       {children}
     </ChakraCode>
   );
