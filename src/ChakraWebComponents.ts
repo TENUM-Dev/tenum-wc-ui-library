@@ -46,6 +46,15 @@ abstract class ChakraElementBase extends HTMLElement {
       }
     }
 
+    if (this.elementType === "code") {
+      console.log('[ChakraCodeElement] collectProps:', {
+        elementType: this.elementType,
+        attributes: Array.from(this.attributes).map(a => ({ name: a.name, value: a.value })),
+        collectedProps: props,
+        textContent: this.textContent
+      });
+    }
+
     return props;
   }
 
@@ -89,7 +98,9 @@ abstract class ChakraElementBase extends HTMLElement {
       const parent = this.getParentChakraElement();
       const parentId = parent?._id;
 
-      // console.log(`[ChakraWC] ${this.elementType} connected, parent: ${parentId || 'none'}, text: ${this.getTextContent()}`);
+      if (this.elementType === "code") {
+        console.log(`[ChakraCodeElement] connected, parent: ${parentId || 'none'}, text: ${this.getTextContent()}`);
+      }
 
       registry.upsert({
         id: this._id,

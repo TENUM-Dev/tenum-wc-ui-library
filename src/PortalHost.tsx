@@ -1,10 +1,9 @@
 import React from "react";
-import { ChakraProvider, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableContainer, TableCaption, Badge, Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
+import { ChakraProvider, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableContainer, TableCaption, Badge, Card, CardHeader, CardBody, CardFooter, Code } from "@chakra-ui/react";
 import { createPortal } from "react-dom";
 import { Provider } from "./Provider";
 import JsonForm from "./JsonForm";
 import CardContent from "./CardContent";
-import { Code } from "./Code";
 
 export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tfoot" | "tr" | "th" | "td" | "table-caption" | "badge" | "code" | "provider" | "jsonform" | "card" | "card-header" | "card-body" | "card-footer";
 
@@ -283,7 +282,16 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       break;
     case "code":
       const { children: childrenProp, ...codeProps } = entry.props || {};
-      const codeContent = (childrenProp && childrenProp.trim()) || content || "";
+      const codeContent = childrenProp || content;
+      console.log('[PortalHost] Code rendering:', {
+        entryId: entry.id,
+        props: entry.props,
+        codeProps,
+        childrenProp,
+        content,
+        codeContent,
+        textContent: entry.textContent
+      });
       element = <Code {...codeProps}>{codeContent}</Code>;
       break;
     case "card":
