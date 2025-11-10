@@ -149,6 +149,7 @@ registerCustomElements({
       tag: 'chakra-code',
       version: VERSION,
       props: {
+        children: 'string',
         colorScheme: 'string',
         size: 'string',
         variant: 'string'

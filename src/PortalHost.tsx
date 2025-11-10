@@ -281,23 +281,7 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       element = <Badge {...entry.props}>{content}</Badge>;
       break;
     case "code":
-      const { children: childrenProp, ...codeProps } = entry.props || {};
-      const codeContent = childrenProp || content;
-      if (!(window as any).__codeRenderLogged) {
-        (window as any).__codeRenderLogged = true;
-        console.log('[PortalHost] Code rendering:', {
-          propsKeys: Object.keys(entry.props || {}),
-          props: Object.keys(entry.props || {}).reduce((acc, k) => {
-            acc[k] = entry.props?.[k];
-            return acc;
-          }, {} as Record<string, any>),
-          childrenProp: childrenProp || '(undefined)',
-          content: content || '(null)',
-          codeContent: codeContent || '(empty)',
-          textContent: entry.textContent || '(empty)'
-        });
-      }
-      element = <Code {...codeProps}>{codeContent}</Code>;
+      element = <Code {...entry.props}>{children.length > 0 ? children : content}</Code>;
       break;
     case "card":
       element = <Card {...entry.props}>{children}</Card>;

@@ -63,6 +63,11 @@ abstract class ChakraElementBase extends HTMLElement {
     const textAttr = this.getAttribute("text");
     if (textAttr) return textAttr;
 
+    if (this.elementType === "code") {
+      const childrenAttr = this.getAttribute("children");
+      if (childrenAttr) return childrenAttr;
+    }
+
     return this.textContent?.trim() || "";
   }
 
@@ -113,6 +118,17 @@ abstract class ChakraElementBase extends HTMLElement {
 
       if (parentId) {
         registry.addChild(parentId, this._id);
+      }
+
+      if (this.elementType === "code") {
+        setTimeout(() => {
+          const updatedProps = this.collectProps();
+          const updatedTextContent = this.getTextContent();
+          if (Object.keys(updatedProps).length > 0 || updatedTextContent) {
+            registry.updateProps(this._id, updatedProps);
+            registry.updateTextContent(this._id, updatedTextContent);
+          }
+        }, 100);
       }
 
       // For th/td elements
