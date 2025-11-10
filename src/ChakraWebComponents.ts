@@ -46,12 +46,13 @@ abstract class ChakraElementBase extends HTMLElement {
       }
     }
 
-    if (this.elementType === "code") {
+    if (this.elementType === "code" && !(window as any).__codeDebugLogged) {
+      (window as any).__codeDebugLogged = true;
       console.log('[ChakraCodeElement] collectProps:', {
-        elementType: this.elementType,
-        attributes: Array.from(this.attributes).map(a => ({ name: a.name, value: a.value })),
-        collectedProps: props,
-        textContent: this.textContent
+        attributes: Array.from(this.attributes).map(a => `${a.name}="${a.value}"`).join(', '),
+        collectedProps: Object.keys(props).length > 0 ? Object.keys(props).map(k => `${k}: ${props[k]}`).join(', ') : '{}',
+        textContent: `"${this.textContent}"`,
+        innerHTML: `"${this.innerHTML}"`
       });
     }
 
@@ -98,9 +99,7 @@ abstract class ChakraElementBase extends HTMLElement {
       const parent = this.getParentChakraElement();
       const parentId = parent?._id;
 
-      if (this.elementType === "code") {
-        console.log(`[ChakraCodeElement] connected, parent: ${parentId || 'none'}, text: ${this.getTextContent()}`);
-      }
+      // Debug logging removed - check PortalHost logs instead
 
       registry.upsert({
         id: this._id,

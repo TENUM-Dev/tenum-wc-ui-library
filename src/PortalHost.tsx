@@ -283,15 +283,20 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
     case "code":
       const { children: childrenProp, ...codeProps } = entry.props || {};
       const codeContent = childrenProp || content;
-      console.log('[PortalHost] Code rendering:', {
-        entryId: entry.id,
-        props: entry.props,
-        codeProps,
-        childrenProp,
-        content,
-        codeContent,
-        textContent: entry.textContent
-      });
+      if (!(window as any).__codeRenderLogged) {
+        (window as any).__codeRenderLogged = true;
+        console.log('[PortalHost] Code rendering:', {
+          propsKeys: Object.keys(entry.props || {}),
+          props: Object.keys(entry.props || {}).reduce((acc, k) => {
+            acc[k] = entry.props?.[k];
+            return acc;
+          }, {} as Record<string, any>),
+          childrenProp: childrenProp || '(undefined)',
+          content: content || '(null)',
+          codeContent: codeContent || '(empty)',
+          textContent: entry.textContent || '(empty)'
+        });
+      }
       element = <Code {...codeProps}>{codeContent}</Code>;
       break;
     case "card":
