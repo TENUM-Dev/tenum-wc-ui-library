@@ -1,9 +1,10 @@
 import React from "react";
-import { ChakraProvider, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableContainer, TableCaption, Badge, Card, CardHeader, CardBody, CardFooter, Code } from "@chakra-ui/react";
+import { ChakraProvider, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableContainer, TableCaption, Badge, Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
 import { createPortal } from "react-dom";
 import { Provider } from "./Provider";
 import JsonForm from "./JsonForm";
 import CardContent from "./CardContent";
+import { Code } from "./Code";
 
 export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tfoot" | "tr" | "th" | "td" | "table-caption" | "badge" | "code" | "provider" | "jsonform" | "card" | "card-header" | "card-body" | "card-footer";
 
