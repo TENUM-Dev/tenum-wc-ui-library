@@ -48,9 +48,13 @@ abstract class ChakraElementBase extends HTMLElement {
 
     if (this.elementType === "code" && !(window as any).__codeDebugLogged) {
       (window as any).__codeDebugLogged = true;
+      const hasSize = Array.from(this.attributes).some(a => a.name === "size");
       console.log('[ChakraCodeElement] collectProps:', {
         attributes: Array.from(this.attributes).map(a => `${a.name}="${a.value}"`).join(', '),
+        hasSizeAttribute: hasSize,
+        sizeAttributeValue: this.getAttribute("size"),
         collectedProps: Object.keys(props).length > 0 ? Object.keys(props).map(k => `${k}: ${props[k]}`).join(', ') : '{}',
+        sizeInProps: props.size,
         textContent: `"${this.textContent}"`,
         innerHTML: `"${this.innerHTML}"`
       });

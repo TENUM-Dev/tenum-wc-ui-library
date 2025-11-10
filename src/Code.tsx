@@ -32,6 +32,18 @@ export const Code: FC<PropsWithChildren<CodeProps>> = ({
   variant,
   ...props
 }) => {
+  if (!(window as any).__codeComponentLogged) {
+    (window as any).__codeComponentLogged = true;
+    console.log('[Code Component] Rendering with props:', {
+      size,
+      colorScheme,
+      variant,
+      hasChildren: !!children,
+      allPropsKeys: Object.keys({ colorScheme, size, variant, ...props }),
+      allProps: { colorScheme, size, variant, ...props }
+    });
+  }
+
   return (
     <ChakraCode
       colorScheme={colorScheme}
