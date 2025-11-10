@@ -281,7 +281,7 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       element = <Badge {...entry.props}>{content}</Badge>;
       break;
     case "code":
-      element = <Code {...entry.props}>{children.length > 0 ? children : content}</Code>;
+      element = <Code {...entry.props}>{content}</Code>;
       break;
     case "card":
       element = <Card {...entry.props}>{children}</Card>;
