@@ -282,8 +282,9 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       element = <Badge {...entry.props}>{content}</Badge>;
       break;
     case "code":
-      const codeContent = entry.props?.children || content;
-      element = <Code {...entry.props}>{codeContent}</Code>;
+      const { children: childrenProp, ...codeProps } = entry.props || {};
+      const codeContent = (childrenProp && childrenProp.trim()) || content || "";
+      element = <Code {...codeProps}>{codeContent}</Code>;
       break;
     case "card":
       element = <Card {...entry.props}>{children}</Card>;
