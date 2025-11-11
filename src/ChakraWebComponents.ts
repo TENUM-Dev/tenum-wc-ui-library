@@ -106,14 +106,22 @@ abstract class ChakraElementBase extends HTMLElement {
       const parent = this.getParentChakraElement();
       const parentId = parent?._id;
 
-      // Debug logging removed - check PortalHost logs instead
+      const props = this.collectProps();
+
+      if (this.elementType === "collapse") {
+        console.log('[ChakraWebComponents] Collapse connected:', {
+          id: this._id,
+          props,
+          attributes: Array.from(this.attributes).map(attr => ({ name: attr.name, value: attr.value }))
+        });
+      }
 
       registry.upsert({
         id: this._id,
         parentId,
         container: this, // Element itself as the portal target
         type: this.elementType,
-        props: this.collectProps(),
+        props,
         childrenOrder: [],
         textContent: this.getTextContent()
       });
@@ -158,7 +166,18 @@ abstract class ChakraElementBase extends HTMLElement {
     const attrObserver = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         if (mutation.type === "attributes") {
-          registry.updateProps(this._id, this.collectProps());
+          const newProps = this.collectProps();
+
+          if (this.elementType === "collapse") {
+            console.log('[ChakraWebComponents] Collapse attribute changed:', {
+              attributeName: mutation.attributeName,
+              oldValue: mutation.oldValue,
+              newValue: this.getAttribute(mutation.attributeName!),
+              collectedProps: newProps
+            });
+          }
+
+          registry.updateProps(this._id, newProps);
 
           if (mutation.attributeName === "text") {
             registry.updateTextContent(this._id, this.getTextContent());
