@@ -41,7 +41,7 @@ interface CollapseProps extends ChakraCollapseProps {
 
 export const Collapse: FC<PropsWithChildren<CollapseProps>> = ({
   children,
-  isOpen,
+  isOpen = false, // Default to closed to work with Lua (which can't pass false directly)
   ...props
 }) => {
   return (
