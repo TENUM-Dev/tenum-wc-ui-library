@@ -14,6 +14,7 @@ import {
   ChakraTfootElement,
   ChakraBadgeElement,
   ChakraCodeElement,
+  ChakraCollapseElement,
   ChakraCardElement,
   ChakraCardHeaderElement,
   ChakraCardBodyElement,
@@ -153,6 +154,19 @@ registerCustomElements({
         colorScheme: 'string',
         fontSize: 'string',
         variant: 'string'
+      },
+      eventMap: {}
+    },
+    Collapse: {
+      elementClass: ChakraCollapseElement,
+      tag: 'chakra-collapse',
+      version: VERSION,
+      props: {
+        isOpen: 'boolean',
+        animateOpacity: 'boolean',
+        startingHeight: 'string',
+        endingHeight: 'string',
+        unmountOnExit: 'boolean'
       },
       eventMap: {}
     },

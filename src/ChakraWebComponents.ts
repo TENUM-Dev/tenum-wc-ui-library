@@ -206,6 +206,10 @@ export class ChakraCodeElement extends ChakraElementBase {
   protected elementType: ChakraElementType = "code";
 }
 
+export class ChakraCollapseElement extends ChakraElementBase {
+  protected elementType: ChakraElementType = "collapse";
+}
+
 export class ChakraCardElement extends ChakraElementBase {
   protected elementType: ChakraElementType = "card";
 }
