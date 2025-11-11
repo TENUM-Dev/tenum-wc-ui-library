@@ -29,6 +29,11 @@ abstract class ChakraElementBase extends HTMLElement {
   protected collectProps(): Record<string, any> {
     const props: Record<string, any> = {};
 
+    // Helper to convert string to boolean
+    const toBool = (value: string): boolean => {
+      return value === 'true' || value === '';
+    };
+
     for (const attr of this.attributes) {
       const attrName = attr.name;
       const attrValue = attr.value;
@@ -39,8 +44,15 @@ abstract class ChakraElementBase extends HTMLElement {
 
       if (attrName === "colorscheme") {
         props.colorScheme = attrValue;
-      } else if (attrName === "isnumeric") {
-        props.isNumeric = attrValue === 'true' || attrValue === '';
+      }
+      else if (attrName === "isnumeric") {
+        props.isNumeric = toBool(attrValue);
+      } else if (attrName === "isopen") {
+        props.isOpen = toBool(attrValue);
+      } else if (attrName === "animateopacity") {
+        props.animateOpacity = toBool(attrValue);
+      } else if (attrName === "unmountonexit") {
+        props.unmountOnExit = toBool(attrValue);
       } else {
         props[attrName] = attrValue;
       }
