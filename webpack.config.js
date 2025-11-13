@@ -59,11 +59,11 @@ export default {
       },
       shared: {
         // Needed for local development
-        react: { singleton: true, requiredVersion: "^18.3.1" },
-        "react-dom": { singleton: true, requiredVersion: "^18.3.1" },
-        "@chakra-ui/react": { singleton: true, requiredVersion: "2.10.9" },
-        "@emotion/react": { singleton: true, requiredVersion: "11.14.0" },
-        "@emotion/styled": { singleton: true, requiredVersion: "11.14.1" }
+        react: { singleton: true, eager: true, requiredVersion: "^18.3.1" },
+        "react-dom": { singleton: true, eager: true, requiredVersion: "^18.3.1" },
+        "@chakra-ui/react": { singleton: true, eager: true, requiredVersion: "2.10.9" },
+        "@emotion/react": { singleton: true, eager: true, requiredVersion: "11.14.0" },
+        "@emotion/styled": { singleton: true, eager: true, requiredVersion: "11.14.1" }
       }
     }),
     new HtmlWebpackPlugin({
