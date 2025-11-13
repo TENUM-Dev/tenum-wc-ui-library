@@ -290,7 +290,7 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       element = <Collapse {...entry.props}>{children}</Collapse>;
       break;
     case "crudlist":
-      element = <CrudList {...entry.props} />;
+      element = <CrudList {...entry.props} _element={entry.container} />;
       break;
     case "card":
       element = <Card {...entry.props}>{children}</Card>;

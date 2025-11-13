@@ -34,6 +34,15 @@ abstract class ChakraElementBase extends HTMLElement {
       return value === 'true' || value === '';
     };
 
+    // Helper to parse JSON
+    const tryParseJSON = (value: string): any => {
+      try {
+        return JSON.parse(value);
+      } catch (e) {
+        return value;
+      }
+    };
+
     for (const attr of this.attributes) {
       const attrName = attr.name;
       const attrValue = attr.value;
@@ -42,6 +51,7 @@ abstract class ChakraElementBase extends HTMLElement {
         continue;
       }
 
+      // Handle camelCase conversions
       if (attrName === "colorscheme") {
         props.colorScheme = attrValue;
       }
@@ -53,6 +63,10 @@ abstract class ChakraElementBase extends HTMLElement {
         props.animateOpacity = toBool(attrValue);
       } else if (attrName === "unmountonexit") {
         props.unmountOnExit = toBool(attrValue);
+      }
+      // JSON attributes
+      else if (attrName === "items") {
+        props.items = tryParseJSON(attrValue);
       } else {
         props[attrName] = attrValue;
       }

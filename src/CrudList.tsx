@@ -23,6 +23,7 @@ interface CrudListProps {
   onSelect?: (id: string) => void;
   onCreate?: (name: string) => void;
   onDelete?: (id: string) => void;
+  _element?: HTMLElement;
 }
 
 export const CrudList: FC<CrudListProps> = ({
@@ -31,16 +32,29 @@ export const CrudList: FC<CrudListProps> = ({
   onSelect,
   onCreate,
   onDelete,
+  _element,
 }) => {
   const [newItemName, setNewItemName] = useState<string>('');
   const itemsArray: Item[] = Array.isArray(items) ? items : Object.values(items ?? {});
 
-  console.log('[CrudList] Props:', { items, itemsArray, selected });
+  console.log('[CrudList] Props:', { items, itemsArray, selected, hasElement: !!_element });
+
+  const dispatchEvent = (eventName: string, detail: any) => {
+    if (_element) {
+      const event = new CustomEvent(eventName, { detail, bubbles: true, composed: true });
+      _element.dispatchEvent(event);
+      console.log('[CrudList] Dispatched event:', eventName, detail);
+    }
+  };
 
   const handleCreate = () => {
-    console.log('[CrudList] handleCreate called, newItemName:', newItemName, 'onCreate:', typeof onCreate);
-    if (newItemName.trim() && onCreate) {
-      onCreate(newItemName.trim());
+    console.log('[CrudList] handleCreate called, newItemName:', newItemName);
+    if (newItemName.trim()) {
+      if (_element) {
+        dispatchEvent('create', newItemName.trim());
+      } else if (onCreate) {
+        onCreate(newItemName.trim());
+      }
       setNewItemName(''); // Clear input after creating
     }
   };
@@ -83,12 +97,24 @@ export const CrudList: FC<CrudListProps> = ({
                 justifyContent="flex-start"
                 colorScheme={selected === item.id ? 'blue' : undefined}
                 variant={selected === item.id ? 'solid' : 'outline'}
-                onClick={() => onSelect?.(item.id)}
+                onClick={() => {
+                  if (_element) {
+                    dispatchEvent('select', item.id);
+                  } else {
+                    onSelect?.(item.id);
+                  }
+                }}
               >
                 {item.name}
               </Button>
               <IconButton
-                onClick={() => onDelete?.(item.id)}
+                onClick={() => {
+                  if (_element) {
+                    dispatchEvent('delete', item.id);
+                  } else {
+                    onDelete?.(item.id);
+                  }
+                }}
                 aria-label='Remove element'
                 icon={<MdOutlineRemove />}
               />
