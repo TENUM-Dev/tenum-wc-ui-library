@@ -31,56 +31,61 @@ export const CrudList: FC<CrudListProps> = ({
   onSelect,
   onCreate,
   onDelete,
-  ...props
 }) => {
-  const [newItemName, setNewItemName] = useState<string | undefined>(undefined)
-  const convertedItems = Object.values(items ?? {})
+  const [newItemName, setNewItemName] = useState<string>('');
+  const itemsArray: Item[] = Array.isArray(items) ? items : Object.values(items ?? {});
+
+  const handleCreate = () => {
+    if (newItemName.trim() && onCreate) {
+      onCreate(newItemName.trim());
+      setNewItemName(''); // Clear input after creating
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleCreate();
+    }
+  };
 
   return (
-    <VStack>
+    <VStack spacing={4} align="stretch" width="100%">
       <InputGroup size='md'>
         <Input
           pr='4.5rem'
           type='text'
           placeholder='Create new item'
-          onChange={ev => setNewItemName(ev.target.value)}
+          value={newItemName}
+          onChange={(e) => setNewItemName(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
         <InputRightElement width='4.5rem'>
-          <Button h='1.75rem' size='sm' onClick={() => {
-            if (newItemName === undefined || newItemName === '') {
-              console.log('NewItemName is undefined or empty')
-            }
-            if (typeof onCreate === 'function') {
-              // @ts-ignore
-              onCreate(newItemName)
-            } else {
-              console.log('onCreate is not a function it is ', onCreate)
-            }
-          }}>
+          <Button
+            h='1.75rem'
+            size='sm'
+            onClick={handleCreate}
+            isDisabled={!newItemName.trim()}
+          >
             <MdOutlineAdd />
           </Button>
         </InputRightElement>
       </InputGroup>
-      <List>{
-        convertedItems?.map(item => (
+
+      <List spacing={2} width="100%">
+        {itemsArray.map((item) => (
           <ListItem key={item.id}>
-            <ButtonGroup size='sm' isAttached variant='outline'>
+            <ButtonGroup size='sm' isAttached variant='outline' width="100%">
               <Button
-                onClick={() => {
-                  if (typeof onSelect === 'function') {
-                    onSelect(item.id)
-                  } else {
-                    console.log('onSelect is not a function it is ', onSelect)
-                  }
-                }}>{item.name}</Button>
+                flex={1}
+                justifyContent="flex-start"
+                colorScheme={selected === item.id ? 'blue' : undefined}
+                variant={selected === item.id ? 'solid' : 'outline'}
+                onClick={() => onSelect?.(item.id)}
+              >
+                {item.name}
+              </Button>
               <IconButton
-                onClick={() => {
-                  if (typeof onDelete === 'function') {
-                    onDelete(item.id)
-                  } else {
-                    console.log('onDelete is not a function it is ', onDelete)
-                  }
-                }}
+                onClick={() => onDelete?.(item.id)}
                 aria-label='Remove element'
                 icon={<MdOutlineRemove />}
               />
@@ -89,7 +94,7 @@ export const CrudList: FC<CrudListProps> = ({
         ))}
       </List>
     </VStack>
-  )
+  );
 };
 
 export default CrudList;
