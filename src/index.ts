@@ -15,6 +15,7 @@ import {
   ChakraBadgeElement,
   ChakraCodeElement,
   ChakraCollapseElement,
+  ChakraCrudListElement,
   ChakraCardElement,
   ChakraCardHeaderElement,
   ChakraCardBodyElement,
@@ -169,6 +170,20 @@ registerCustomElements({
         unmountOnExit: 'boolean'
       },
       eventMap: {}
+    },
+    CrudList: {
+      elementClass: ChakraCrudListElement,
+      tag: 'chakra-crudlist',
+      version: VERSION,
+      props: {
+        selected: 'string',
+        items: 'json'
+      },
+      eventMap: {
+        onSelect: 'select',
+        onCreate: 'create',
+        onDelete: 'delete'
+      }
     },
     Card: {
       elementClass: ChakraCardElement,

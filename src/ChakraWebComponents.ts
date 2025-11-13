@@ -108,14 +108,6 @@ abstract class ChakraElementBase extends HTMLElement {
 
       const props = this.collectProps();
 
-      if (this.elementType === "collapse") {
-        console.log('[ChakraWebComponents] Collapse connected:', {
-          id: this._id,
-          props,
-          attributes: Array.from(this.attributes).map(attr => ({ name: attr.name, value: attr.value }))
-        });
-      }
-
       registry.upsert({
         id: this._id,
         parentId,
@@ -167,15 +159,6 @@ abstract class ChakraElementBase extends HTMLElement {
       for (const mutation of mutations) {
         if (mutation.type === "attributes") {
           const newProps = this.collectProps();
-
-          if (this.elementType === "collapse") {
-            console.log('[ChakraWebComponents] Collapse attribute changed:', {
-              attributeName: mutation.attributeName,
-              oldValue: mutation.oldValue,
-              newValue: this.getAttribute(mutation.attributeName!),
-              collectedProps: newProps
-            });
-          }
 
           registry.updateProps(this._id, newProps);
 
@@ -239,6 +222,10 @@ export class ChakraCodeElement extends ChakraElementBase {
 
 export class ChakraCollapseElement extends ChakraElementBase {
   protected elementType: ChakraElementType = "collapse";
+}
+
+export class ChakraCrudListElement extends ChakraElementBase {
+  protected elementType: ChakraElementType = "crudlist";
 }
 
 export class ChakraCardElement extends ChakraElementBase {

@@ -6,8 +6,9 @@ import JsonForm from "./JsonForm";
 import CardContent from "./CardContent";
 import { Code } from "./Code";
 import { Collapse } from "./Collapse";
+import CrudList from "./CrudList";
 
-export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tfoot" | "tr" | "th" | "td" | "table-caption" | "badge" | "code" | "collapse" | "provider" | "jsonform" | "card" | "card-header" | "card-body" | "card-footer";
+export type ChakraElementType = "table-container" | "table" | "thead" | "tbody" | "tfoot" | "tr" | "th" | "td" | "table-caption" | "badge" | "code" | "collapse" | "crudlist" | "provider" | "jsonform" | "card" | "card-header" | "card-body" | "card-footer";
 
 export type NodeEntry = {
   id: string;
@@ -287,6 +288,9 @@ function buildReactNode(id: string, entries: Map<string, NodeEntry>, isRoot: boo
       break;
     case "collapse":
       element = <Collapse {...entry.props}>{children}</Collapse>;
+      break;
+    case "crudlist":
+      element = <CrudList {...entry.props} />;
       break;
     case "card":
       element = <Card {...entry.props}>{children}</Card>;
