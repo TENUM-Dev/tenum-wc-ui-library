@@ -35,7 +35,10 @@ export const CrudList: FC<CrudListProps> = ({
   const [newItemName, setNewItemName] = useState<string>('');
   const itemsArray: Item[] = Array.isArray(items) ? items : Object.values(items ?? {});
 
+  console.log('[CrudList] Props:', { items, itemsArray, selected });
+
   const handleCreate = () => {
+    console.log('[CrudList] handleCreate called, newItemName:', newItemName, 'onCreate:', typeof onCreate);
     if (newItemName.trim() && onCreate) {
       onCreate(newItemName.trim());
       setNewItemName(''); // Clear input after creating
